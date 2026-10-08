@@ -10,6 +10,8 @@ change that moves the room toward the requested feeling.
 An Autodesk Revit add-in applies the change, and the resident accepts or rejects it.
 The person always makes the final decision.
 
+![ALIS framework](docs/alis_framework.png)
+
 I built this work on my own, without project funding. The system was first built and tested in Korean,
 so the text classifier reads Korean feedback.
 
