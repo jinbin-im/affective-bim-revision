@@ -1,0 +1,19 @@
+# build output and IDE
+bin/
+obj/
+.vs/
+__pycache__/
+*.pyc
+# model weights, tokenizers and private data are never committed
+*.pt
+*.pkl
+*_tokenizer/
+Results/
+*.xlsx
+.env
+
+# any local data or results
+data/
+results/
+*.csv
+*.json

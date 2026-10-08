@@ -1,0 +1,778 @@
+<Window x:Class="ALIS.MyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ALIS"
+        Title="ALIS - Architectural Language Interactive Synthesis"
+        Height="950"
+        Width="1920"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F7FA">
+
+    <Window.Resources>
+        <!-- Drop shadow effect -->
+        <DropShadowEffect x:Key="CardShadow"
+                          BlurRadius="15"
+                          ShadowDepth="3"
+                          Opacity="0.15"
+                          Color="#000000"/>
+
+        <!-- Title style -->
+        <Style x:Key="TitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+        </Style>
+
+        <!-- Section title style -->
+        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#34495E"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+
+        <!-- Card style -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="24"/>
+            <Setter Property="Effect" Value="{StaticResource CardShadow}"/>
+        </Style>
+
+        <!-- Primary button style -->
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3498DB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5DADE2"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2E86C1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Secondary button style -->
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#ECF0F1"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="4,2"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#BDC3C7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#95A5A6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Render view style -->
+        <Style x:Key="RenderViewStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E5E8EB"/>
+            <Setter Property="Effect" Value="{StaticResource CardShadow}"/>
+        </Style>
+
+        <!-- Image container style -->
+        <Style x:Key="ImageContainerStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FAFBFC"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#D5DBDB"/>
+        </Style>
+
+        <!-- Label style -->
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#7F8C8D"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+
+        <!-- TextBox style -->
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D5DBDB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3498DB"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3498DB"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Main container -->
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="0,0,0,25">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Title -->
+                <TextBlock Grid.Column="0"
+                           Text="Automated Spatial Design Revision System"
+                           Style="{StaticResource TitleStyle}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,20,0"/>
+
+                <!-- Buttons next to the title -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="Analysis"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Margin="0,0,8,0" Click="FullAnalysisButton_Click"/>
+                    <Button Content="New Project"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Margin="0,0,8,0"/>
+                    <Button Content="Save"
+                            Style="{StaticResource SecondaryButtonStyle}"/>
+                </StackPanel>
+
+                <!-- Right: Apply / Reset buttons -->
+                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="Apply"
+                            Height="50" Width="100"
+                            FontSize="16" FontWeight="SemiBold"
+                            Foreground="White" BorderThickness="0"
+                            Background="#27AE60"
+                            Margin="0,0,10,0"
+                            Cursor="Hand"
+                            Click="ApplyDesignButton_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#229954"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button Content="Reset"
+                            Height="50" Width="100"
+                            FontSize="16" FontWeight="SemiBold"
+                            Foreground="White" BorderThickness="0"
+                            Background="#E74C3C"
+                            Cursor="Hand"
+                            Click="ResetButton_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#C0392B"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Main content -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left panel: text input and render views -->
+                <Grid Grid.Column="0" Margin="0,0,15,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Text input section -->
+                    <Border Grid.Row="0"
+                            Style="{StaticResource CardStyle}"
+                            Margin="0,0,0,15">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Input Feedback"
+                                       Style="{StaticResource SectionTitleStyle}"/>
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox Grid.Column="0"
+                                         x:Name="InputTextBox"
+                                         Style="{StaticResource TextBoxStyle}"
+                                         Height="80"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"
+                                         VerticalScrollBarVisibility="Auto"
+                                         Text="..."
+                                         Margin="0,0,10,0" TextChanged="InputTextBox_TextChanged"/>
+
+                                <Button Grid.Column="1"
+                                        x:Name="AnalyzeTextButton"
+                                        Content="Analysis"
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        Height="80"
+                                        Width="120"
+                                        FontSize="16"
+                                        Click="AnalyzeButton_Click"/>
+                                
+                            </Grid>
+                            <!-- Improvement section -->
+                            <Grid Grid.Row="2"
+                                  x:Name="ImprovementSection"
+                                  Margin="0,15,0,0"
+                                  Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Improvement text -->
+                                <TextBlock Grid.Column="0"
+                                           Text="Target Emotion: "
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#2C3E50"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,8,0"/>
+
+                                <TextBlock Grid.Column="1"
+                                           x:Name="TargetEmotionText"
+                                           Text="Comfortable"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Foreground="#7B27D8"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,20,0"/>
+
+                                <!-- Design revision button -->
+                                <Button Grid.Column="2"
+                                        x:Name="DesignModifyButton"
+                                        Content="Revise Design "
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        Height="40"
+                                        Width="120"
+                                        FontSize="14"
+                                        Click="DesignModifyButton_Click"/>
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+
+                    <!-- Spatial design variables (Grid.Row="1") -->
+                    <Border Grid.Row="1"
+                            Style="{StaticResource CardStyle}"
+                            Margin="0,0,0,15">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Spatial Design Features" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,6"/>
+
+                            <!-- Five variable cards: label on top, Before/After below in each column -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Before/After labels -->
+                                <StackPanel Grid.Column="0" VerticalAlignment="Bottom" Margin="0,0,6,0">
+                                    <TextBlock Text="Current"
+                                       FontSize="14" FontWeight="SemiBold"
+                                       Foreground="#2980B9"
+                                       HorizontalAlignment="Right"
+                                       Height="22" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Revised"
+                                       FontSize="14" FontWeight="SemiBold"
+                                       Foreground="#27AE60"
+                                       HorizontalAlignment="Right"
+                                       Height="22" VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Ceiling height -->
+                                <Border Grid.Column="1" CornerRadius="8" Background="#F8F9FA" BorderBrush="#E0E4E8" BorderThickness="1">
+                                    <StackPanel Margin="6,3,6,3">
+                                        <!-- Label -->
+                                        <TextBlock Text="Ceiling Height"
+                                           FontSize="12" FontWeight="SemiBold"
+                                           Foreground="#7F8C8D"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,2"/>
+                                        <!-- Before value -->
+                                        <Border CornerRadius="4" Background="#EBF5FB" Margin="0,0,0,2">
+                                            <Button x:Name="BeforeOption1Button"
+                                            Content="-"
+                                            FontSize="14" FontWeight="SemiBold"
+                                            Foreground="#2980B9"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Height="22"
+                                            HorizontalAlignment="Stretch"
+                                            Cursor="Hand"/>
+                                        </Border>
+                                        <!-- After value -->
+                                        <Border CornerRadius="4" Background="#EAFAF1">
+                                            <Button x:Name="AfterOption1Button"
+                                            Content="-"
+                                            FontSize="14" FontWeight="SemiBold"
+                                            Foreground="#27AE60"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Height="22"
+                                            HorizontalAlignment="Stretch"
+                                            Cursor="Hand" Click="AfterOption1Button_Click"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                                <!-- WWR -->
+                                <Border Grid.Column="2" CornerRadius="8" Background="#F8F9FA" BorderBrush="#E0E4E8" BorderThickness="1" Margin="4,0,0,0">
+                                    <StackPanel Margin="6,3,6,3">
+                                        <TextBlock Text="Window size"
+                                                        FontSize="12" FontWeight="SemiBold"
+                                                        Foreground="#7F8C8D"
+                                                        HorizontalAlignment="Center"
+                                                        Margin="0,0,0,2"/>
+                                        <Border CornerRadius="4" Background="#EBF5FB" Margin="0,0,0,2">
+                                            <Button x:Name="BeforeOption2Button"
+                                                         Content="-"
+                                                         FontSize="14" FontWeight="SemiBold"
+                                                         Foreground="#2980B9"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         Height="22"
+                                                         HorizontalAlignment="Stretch"
+                                                         Cursor="Hand"/>
+                                        </Border>
+                                        <Border CornerRadius="4" Background="#EAFAF1">
+                                            <Button x:Name="AfterOption2Button"
+                                                         Content="-"
+                                                         FontSize="14" FontWeight="SemiBold"
+                                                         Foreground="#27AE60"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         Height="22"
+                                                         HorizontalAlignment="Stretch"
+                                                         Cursor="Hand"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- CCT -->
+                                <Border Grid.Column="3" CornerRadius="8" Background="#F8F9FA" BorderBrush="#E0E4E8" BorderThickness="1" Margin="4,0,0,0">
+                                    <StackPanel Margin="6,3,6,3">
+                                        <TextBlock Text="Lighting Color"
+                                                        FontSize="12" FontWeight="SemiBold"
+                                                        Foreground="#7F8C8D"
+                                                        HorizontalAlignment="Center"
+                                                        Margin="0,0,0,2"/>
+                                        <Border CornerRadius="4" Background="#EBF5FB" Margin="0,0,0,2">
+                                            <Button x:Name="BeforeOption3Button"
+                                                         Content="-"
+                                                         FontSize="14" FontWeight="SemiBold"
+                                                         Foreground="#2980B9"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         Height="22"
+                                                         HorizontalAlignment="Stretch"
+                                                         Cursor="Hand"/>
+                                        </Border>
+                                        <Border CornerRadius="4" Background="#EAFAF1">
+                                            <Button x:Name="AfterOption3Button"
+                                                         Content="-"
+                                                         FontSize="14" FontWeight="SemiBold"
+                                                         Foreground="#27AE60"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         Height="22"
+                                                         HorizontalAlignment="Stretch"
+                                                         Cursor="Hand"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Wall color -->
+                                <Border Grid.Column="4" CornerRadius="8" Background="#F8F9FA" BorderBrush="#E0E4E8" BorderThickness="1" Margin="4,0,0,0">
+                                    <StackPanel Margin="6,3,6,3">
+                                        <TextBlock Text="Room Color"
+                                                        FontSize="12" FontWeight="SemiBold"
+                                                        Foreground="#7F8C8D"
+                                                        HorizontalAlignment="Center"
+                                                        Margin="0,0,0,2"/>
+                                        <Border CornerRadius="4" Background="#EBF5FB" Margin="0,0,0,2">
+                                            <Button x:Name="BeforeOption4Button"
+                                                         Content="-"
+                                                         FontSize="14" FontWeight="SemiBold"
+                                                         Foreground="#2980B9"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         Height="22"
+                                                         HorizontalAlignment="Stretch"
+                                                         Cursor="Hand"/>
+                                        </Border>
+                                        <Border CornerRadius="4" Background="#EAFAF1">
+                                            <Button x:Name="AfterOption4Button"
+                                                         Content="-"
+                                                         FontSize="14" FontWeight="SemiBold"
+                                                         Foreground="#27AE60"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         Height="22"
+                                                         HorizontalAlignment="Stretch"
+                                                         Cursor="Hand"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Floor material -->
+                                <Border Grid.Column="5" CornerRadius="8" Background="#F8F9FA" BorderBrush="#E0E4E8" BorderThickness="1" Margin="4,0,0,0">
+                                    <StackPanel Margin="6,3,6,3">
+                                        <TextBlock Text="Floor Material"
+                                                        FontSize="12" FontWeight="SemiBold"
+                                                        Foreground="#7F8C8D"
+                                                        HorizontalAlignment="Center"
+                                                        Margin="0,0,0,2"/>
+                                        <Border CornerRadius="4" Background="#EBF5FB" Margin="0,0,0,2">
+                                            <Button x:Name="BeforeOption5Button"
+                                                         Content="-"
+                                                         FontSize="14" FontWeight="SemiBold"
+                                                         Foreground="#2980B9"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         Height="22"
+                                                         HorizontalAlignment="Stretch"
+                                                         Cursor="Hand"/>
+                                        </Border>
+                                        <Border CornerRadius="4" Background="#EAFAF1">
+                                            <Button x:Name="AfterOption5Button"
+                                                         Content="-"
+                                                         FontSize="14" FontWeight="SemiBold"
+                                                         Foreground="#27AE60"
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         Height="22"
+                                                         HorizontalAlignment="Stretch"
+                                                         Cursor="Hand"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+
+                    <!-- Affect distribution chart (Grid.Row="1") -->
+                    <Border Grid.Row="2"
+                            Style="{StaticResource RenderViewStyle}"
+                            Margin="0,0,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Emotional Distribution" Style="{StaticResource SectionTitleStyle}" Margin="19,24,22,403" Grid.RowSpan="2"/>
+
+                            <Grid Background="#FAFBFC" Margin="50,53,50,17" Grid.Row="1">
+                                <!-- Chart placeholder -->
+                                <TextBlock x:Name="BeforeChartPlaceholder"
+                                           Text="Awaiting analysis"
+                                           FontSize="20"
+                                           FontWeight="Light"
+                                           Foreground="#BDC3C7"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                <!-- WPF bar chart canvas -->
+                                <ScrollViewer x:Name="BeforeChartScroll"
+                                              VerticalScrollBarVisibility="Disabled"
+                                              HorizontalScrollBarVisibility="Auto"
+                                              Visibility="Collapsed">
+                                    <Canvas x:Name="BeforeChartCanvas"
+                                            Height="200"
+                                            Margin="10,10,10,30"/>
+                                </ScrollViewer>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+                <!-- Right panel -->
+                <Grid Grid.Column="1" Margin="15,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+
+                    <!-- PNG image section (stacked vertically) -->
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Before image -->
+                        <Border Grid.Row="0"
+                                CornerRadius="10"
+                                Style="{StaticResource RenderViewStyle}"
+                                ClipToBounds="True">
+                            <Grid>
+                                <!-- Image -->
+                                <TextBlock x:Name="BeforePlaceholder"
+                                           Text="Awaiting for Current Design Rendering..."
+                                           FontSize="18"
+                                           FontWeight="Light"
+                                           Foreground="#555577"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                <Image x:Name="BeforeImage"
+                                       Stretch="Uniform"
+                                       Visibility="Collapsed"/>
+                                <!-- Before label overlay -->
+                                <Border HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        Margin="16,0,0,14"
+                                        CornerRadius="6"
+                                        Padding="10,4">
+                                    <TextBlock Text="Current"
+                                               FontSize="22"
+                                               FontWeight="Bold"
+                                               Foreground="#5DADE2"/>
+                                </Border>
+                                <!-- Empty/Staged toggle (Before) -->
+                                <Border HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Margin="0,10,12,0"
+                                        Background="#CCFFFFFF"
+                                        CornerRadius="6"
+                                        Padding="2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="BeforeEmptyBtn"
+                                                Tag="before_empty"
+                                                Content="Empty"
+                                                FontSize="11" FontWeight="SemiBold"
+                                                Padding="8,3"
+                                                Background="#5DADE2" Foreground="White"
+                                                BorderThickness="0" Cursor="Hand"
+                                                Click="ConditionToggleBtn_Click">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                        <Button x:Name="BeforeStagedBtn"
+                                                Tag="before_staged"
+                                                Content="Staged"
+                                                FontSize="11" FontWeight="SemiBold"
+                                                Padding="8,3" Margin="3,0,0,0"
+                                                Background="#7F8C8D" Foreground="White"
+                                                BorderThickness="0" Cursor="Hand"
+                                                Click="ConditionToggleBtn_Click">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+                                <!-- Before select button -->
+                                <Button x:Name="SelectBeforeButton"
+                                         Content="✓  Select" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                         Margin="0,0,14,14" Padding="14,6" FontSize="13" FontWeight="SemiBold"
+                                         Foreground="White" Background="#5DADE2" BorderThickness="0" Cursor="Hand"
+                                         Visibility="Collapsed" Click="SelectBeforeButton_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <!-- After image -->
+                        <Border Grid.Row="2"
+                                CornerRadius="10"
+                                Style="{StaticResource RenderViewStyle}"
+                                ClipToBounds="True">
+                            <Grid>
+                                <!-- Image -->
+                                <TextBlock x:Name="AfterPlaceholder"
+                                           Text="Awaiting for Revised Design Rendering..."
+                                           FontSize="18"
+                                           FontWeight="Light"
+                                           Foreground="#335533"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                <Image x:Name="AfterImage"
+                                       Stretch="Uniform"
+                                       Visibility="Collapsed"/>
+                                <!-- After label overlay -->
+                                <Border HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        Margin="16,0,0,14"
+                                        CornerRadius="6"
+                                        Padding="10,4">
+                                    <TextBlock Text="Revised"
+                                               FontSize="22"
+                                               FontWeight="Bold"
+                                               Foreground="#2ECC71"/>
+                                </Border>
+                                <!-- Empty/Staged toggle (After) -->
+                                <Border HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Margin="0,10,12,0"
+                                        Background="#CCFFFFFF"
+                                        CornerRadius="6"
+                                        Padding="2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="AfterEmptyBtn"
+                                                Tag="after_empty"
+                                                Content="Empty"
+                                                FontSize="11" FontWeight="SemiBold"
+                                                Padding="8,3"
+                                                Background="#2ECC71" Foreground="White"
+                                                BorderThickness="0" Cursor="Hand"
+                                                Click="ConditionToggleBtn_Click">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                        <Button x:Name="AfterStagedBtn"
+                                                Tag="after_staged"
+                                                Content="Staged"
+                                                FontSize="11" FontWeight="SemiBold"
+                                                Padding="8,3" Margin="3,0,0,0"
+                                                Background="#7F8C8D" Foreground="White"
+                                                BorderThickness="0" Cursor="Hand"
+                                                Click="ConditionToggleBtn_Click">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+                                <!-- After select button -->
+                                <Button x:Name="SelectAfterButton"
+                                         Content="✓  Select" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                         Margin="0,0,14,14" Padding="14,6" FontSize="13" FontWeight="SemiBold"
+                                         Foreground="White" Background="#2ECC71" BorderThickness="0" Cursor="Hand"
+                                         Visibility="Collapsed" Click="SelectAfterButton_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below."
+title: "Affective BIM design revision (ALIS)"
+authors:
+  - family-names: Im
+    given-names: Jin-Bin
+    orcid: "https://orcid.org/0000-0003-1672-5439"
+year: 2026
+license: MIT
+repository-code: "https://github.com/jinbin-im/affective-bim-revision"
+preferred-citation:
+  type: conference-paper
+  title: "Optimal transport-based affective user requirements realignment for automated minimal disruptive spatial design revision in BIM environment"
+  authors:
+    - family-names: Im
+      given-names: Jin-Bin
+    - family-names: Hong
+      given-names: Rong-Lu
+    - family-names: Choi
+      given-names: C.-H.
+    - family-names: Ha
+      given-names: J.-E.
+    - family-names: Kim
+      given-names: Ju-Hyung
+  collection-title: "Proceedings of the 43rd International Symposium on Automation and Robotics in Construction (ISARC 2026)"
+  year: 2026
+  doi: "10.22260/ISARC2026/0251"

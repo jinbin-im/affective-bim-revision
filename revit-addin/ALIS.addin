@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>ALIS</Name>
+    <Assembly>C:\path\to\ALIS\bin\Debug\ALIS.dll</Assembly>
+    <AddInId>9B4A1E8D-5C2F-4B7E-8D3A-1F5E2C8B9D34</AddInId>
+    <FullClassName>ALIS.App</FullClassName>
+    <VendorId>HYU-ALIS</VendorId>
+    <VendorDescription>ALIS: Architectural Language Interactive Synthesis for BIM design revision</VendorDescription>
+  </AddIn>
+</RevitAddIns>
